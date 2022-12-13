@@ -2,22 +2,19 @@
   "name": "marvel",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://denvudd.github.io/marvel-app.io/",
+  
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "prop-types": "^15.8.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "^5.0.1",
     "sass": "^1.38.0",
     "serve": "^14.1.2",
     "web-vitals": "^1.0.1"
-  },
-  "engines": {
-    "npm": "8.1.0",
-    "node": "8.1.0"
   },
   "scripts": {
     "predeploy": "npm run build",
