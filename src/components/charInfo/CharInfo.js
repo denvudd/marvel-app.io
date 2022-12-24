@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import Spinner from '../spinner/Spinner';
@@ -80,11 +81,13 @@ const View = ({character}) => {
                     {comics.length > 0 ? null : 'There is no comics with this character'}
                     {
                         comics.map((item, i) => {
+                            const comicURI = item.resourceURI;
+                            const comicId = comicURI.substring(comicURI.lastIndexOf('/') + 1); 
                             if (i < 10) {
                                 return (
-                                    <li key={i} className="char__comics-item">
+                                    <Link to={`/comics/${comicId}`} key={i} className="char__comics-item">
                                         {item.name}
-                                    </li>
+                                    </Link>
                                 )
                             }
                         })

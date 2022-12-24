@@ -27,6 +27,7 @@ const CharList = (props) => {
     }
 
     const onCharListLoaded = (newCharacterList) => {
+
         let ended = false;
         if (newCharacterList.length < 9) {
             ended = true;
@@ -60,7 +61,7 @@ const CharList = (props) => {
                 className="char__item"
                 tabIndex={0}
                 ref={li => itemRefs.current[i] = li}
-                key={item.id}
+                key={i}
                 onClick={() => { 
                     props.onCharSelected(item.id); 
                     focusOnItem(i); 
