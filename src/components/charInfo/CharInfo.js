@@ -34,14 +34,16 @@ const CharInfo = (props) => {
             .then(onCharLoaded);
     }
 
-    const skeleton = character || loading || error ? null : <Skeleton/>;
+    // const skeleton = character || loading || error ? null : <Skeleton/>;
+    const thumbnail = character || loading || error ? null : <p className="char__select">Please select a character to see information</p>
     const errorMessage = error ? <ErrorMessage/> : null;
-    const spinner = loading ? <Spinner/> : null;
+    const spinner = loading ? <Skeleton/>: null;
     const content = !(loading || error || !character) ? <View character={character}/> : null;
 
     return (
         <div className="char__info">
-            {skeleton}
+            {/* {skeleton} */}
+            {thumbnail}
             {errorMessage}
             {spinner}
             {content}

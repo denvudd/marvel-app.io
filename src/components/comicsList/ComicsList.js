@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
@@ -12,6 +13,7 @@ const ComicsList = () => {
     const [offset, setOffset] = useState(210);
     const [newItemLoading, setNewItemLoading] = useState(false);
     const [comicsEnded, setComicsEnded] = useState(false);
+    const animateDuration = 400;
 
     const {loading, error, getAllComics} = useMarvelService();
 
@@ -48,21 +50,26 @@ const ComicsList = () => {
         }
 
             return (
-                <li className="comics__item"
-                    tabIndex={0}
-                    key={i}>
-                    <Link to={`/comics/${item.id}`}>
-                        <img src={item.thumbnail} alt={item.title} style={imgStyle} className="comics__item-img"/>
-                        <div className="comics__item-name">{item.title}</div>
-                        <div className="comics__item-price">{item.price}</div>
-                    </Link>
-                </li>
+                <CSSTransition key={i}
+                               classNames="comics__item"
+                               timeout={animateDuration}>
+                    <li className="comics__item"
+                        tabIndex={0}>
+                        <Link to={`/comics/${item.id}`}>
+                            <img src={item.thumbnail} alt={item.title} style={imgStyle} className="comics__item-img"/>
+                            <div className="comics__item-name">{item.title}</div>
+                            <div className="comics__item-price">{item.price}</div>
+                        </Link>
+                    </li>
+                </CSSTransition>
             )
         })
 
         return (
             <ul className="comics__grid">
-                {items}
+                <TransitionGroup component={null}>
+                    {items}
+                </TransitionGroup>
             </ul>
         )
     }

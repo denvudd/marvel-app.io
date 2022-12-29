@@ -1,25 +1,27 @@
 .skeleton {
     &__header {
         display: grid;
-        grid-template-columns: 40px auto;
+        grid-template-columns: 120px 243px;
         column-gap: 10px;
-        align-items: center;
+        align-items: start;
     }
-    &__circle {
-        width: 40px;
-        height: 40px;
+    &__square {
+        width: 120px;
+        height: 120px;
         background-color: #C4C4C4;
-        border-radius: 100%;
+        border-radius: 8px;
     }
     &__mini {
         width: 100%;
-        height: 16px;
+        height: 42px;
         background-color: #C4C4C4;
+        border-radius: 5px;
     }
     &__block {
         height: 35px;
         width: 100%;
         background-color: #C4C4C4;
         margin-top: 15px;
+        border-radius: 5px;
     }
 }
