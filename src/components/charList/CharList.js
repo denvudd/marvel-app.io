@@ -8,6 +8,24 @@ import useMarvelService from '../../services/MarvelService';
 
 import './charList.scss';
 
+const setContent = (process, ComponentView, newItemLoading) => {
+    switch (process) {
+        case 'waiting':
+            return <Spinner/>;
+            break;
+        case 'loading':
+            return newItemLoading ? <ComponentView/> : <Spinner/>;
+            break;
+        case 'confirmed':
+            return <ComponentView/>;
+            break;
+        case 'error':
+            return <ErrorMessage/>;
+        default: 
+            throw new Error('Unexpected process state');
+    }
+}
+
 const CharList = (props) => {
 
     const [charList, setCharList] = useState([]);
@@ -16,7 +34,7 @@ const CharList = (props) => {
     const [characterEnded, setCharactedEnded] = useState(false);
     const animateDuration = 400;
 
-    const {loading, error, getAllCharacters} = useMarvelService();
+    const {getAllCharacters, process, setProcess} = useMarvelService();
 
     useEffect(() => {
         onRequest(offset, true);
@@ -25,10 +43,11 @@ const CharList = (props) => {
     const onRequest = (offset, init) => {
         init ? setNewItemLoading(false) : setNewItemLoading(true);
         getAllCharacters(offset) // default parameter on load
-            .then(onCharListLoaded);
+            .then(onCharListLoaded)
+            .then(() => setProcess('confirmed'));
     }
 
-    const onCharListLoaded = (newCharacterList) => {
+    const onCharListLoaded = async (newCharacterList) => {
 
         let ended = false;
         if (newCharacterList.length < 9) {
@@ -51,8 +70,8 @@ const CharList = (props) => {
         itemRefs.current[id].focus();
     }
 
-    const renderList = (characterList) => {
-        const items = characterList.map((item, i) => {
+    const renderList = (charList) => {
+        const items = charList.map((item, i) => {
             let imgStyle = {'objectFit': 'cover'};
             if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
                 imgStyle = {'objectFit': 'unset'};
@@ -92,16 +111,10 @@ const CharList = (props) => {
         )
     }
 
-    const list = renderList(charList);
-
-    const errorMessage = error ? <ErrorMessage/> : null;
-    const spinner = loading && !newItemLoading ? <Spinner/> : null;
 
     return (
         <div className="char__list">
-                {errorMessage}
-                {spinner}
-                {list}
+                {setContent(process, () => renderList(charList), newItemLoading)}
             <button 
                 className="button button__main button__long"
                 disabled={newItemLoading}
