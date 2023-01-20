@@ -6,13 +6,10 @@ const setContent = (process, ComponentView, loadingType, data) => {
   switch (process) {
       case 'waiting':
           return <p className="char__select">Please select a character to see information</p>
-          break;
       case 'loading':
           return (loadingType === 'skeleton') ? <Skeleton/> : <Spinner/>;
-          break;
       case 'confirmed':
           return <ComponentView data={data}/>;
-          break;
       case 'error':
           return <ErrorMessage/>;
       default: 

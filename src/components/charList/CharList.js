@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
@@ -47,20 +47,17 @@ const CharList = (props) => {
             .then(() => setProcess('confirmed'));
     }
 
-    const onCharListLoaded = async (newCharacterList) => {
-
+    const onCharListLoaded = async(newCharacterList) => {
         let ended = false;
         if (newCharacterList.length < 9) {
             ended = true;
         }
 
-        setCharList(charList => [...charList, ...newCharacterList]);
+        setCharList([...charList, ...newCharacterList]);
         setNewItemLoading(newItemLoading => false);
         setOffset(offset => offset + 9);
         setCharactedEnded(characterEnded => ended);
     }
-
-    console.log('charList rendered');
 
     const itemRefs = useRef([]);
 
@@ -71,6 +68,7 @@ const CharList = (props) => {
     }
 
     const renderList = (charList) => {
+        console.log('render');
         const items = charList.map((item, i) => {
             let imgStyle = {'objectFit': 'cover'};
             if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
@@ -100,7 +98,7 @@ const CharList = (props) => {
                     </li>
                 </CSSTransition>
             )
-        })
+        });
 
         return (
                 <ul className="char__grid">
@@ -111,10 +109,14 @@ const CharList = (props) => {
         )
     }
 
+    const elements = useMemo(() => {
+        return setContent(process, () => renderList(charList), newItemLoading);
+    }, [process])
+
 
     return (
         <div className="char__list">
-                {setContent(process, () => renderList(charList), newItemLoading)}
+            {elements}
             <button 
                 className="button button__main button__long"
                 disabled={newItemLoading}
