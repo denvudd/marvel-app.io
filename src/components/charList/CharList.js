@@ -133,3 +133,4 @@ CharList.propTypes = {
 }
 
 export default CharList;
+
